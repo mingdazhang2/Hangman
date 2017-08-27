@@ -1,4 +1,4 @@
-/* jshint undef: true, unused: true, esversion: 6, asi: true, browser: true, jquery: true */
+/* jsclue undef: true, unused: true, esversion: 6, asi: true, browser: true, jquery: true */
 window.onload = function() {
     let request = new XMLHttpRequest()
     request.open('GET', 'config.xml', true)
@@ -7,26 +7,30 @@ window.onload = function() {
         if (request.status >= 200 && request.status < 400) {
             // success
             let xml = request.responseXML
+            let inputTxt = document.getElementById('txt')
+            inputTxt.addEventListener("keyup", guessWord);
+            //guessWord()
+        }
+    }
 
+    request.onerror = function() {
+        // There was a connection erro of some sort
+    }
 
-            //create an array of words
-            //var words =["amazing","monkey","amazing","amazing"];
-
-            //pick a random words
-            //var words= words[Math.floor(Math.random() * words.length)];
-
+    request.send()
+    function guessWord(){
             let question = document.getElementById("xmlQuestion").value
 
-            let hint = document.getElementById("xmlHint").innerHTML
+            let clue = document.getElementById("xmlClue").innerHTML
 
 
             //set up the answer array
-            var answerArray = hint.split('');
-            // alert(hint)
+            var answerArray = clue.split('');
+            // alert(clue)
             var remainingLetters = 0
-            for (var i = 0; i < hint.length; i++) {
+            for (var i = 0; i < clue.length; i++) {
 
-                if (hint[i] === "_")
+                if (clue[i] === "_")
                     remainingLetters++
             }
 
@@ -56,7 +60,7 @@ window.onload = function() {
                         for (var j = 0; j < question.length; j++) {
                             if (question[j].toLowerCase() === guessLower[i]) {
                                 answerArray[j] = question[j];
-                                document.getElementById("xmlHint").innerHTML = answerArray.join("")
+                                document.getElementById("xmlClue").innerHTML = answerArray.join("")
                                 remainingLetters--;
                             }
                         }
@@ -66,17 +70,8 @@ window.onload = function() {
 
 
             }
-
-        }
     }
-
-    request.onerror = function() {
-        // There was a connection erro of some sort
-    }
-
-    request.send()
-
-    function EnterPress(e) { //传入 event   
+    function EnterPress(e) {   
         var e = e || window.event;
         if (e.keyCode == 13) {
             document.getElementById("txt").focus();
