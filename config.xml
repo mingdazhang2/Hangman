@@ -1,47 +1,46 @@
-<match title='' numberofmemoryquestions='11' numberofflipquestions='11' backgroundimage="digestiveSystem-diag.jpg" backgroundname='' inputtype='drag' imgX='500' imgY='400'>
-    <passing-score>80</passing-score>
-    <pair targetx='210' targety='85'>
-        <question labelx='8' labely='130'>mouth</question>
-        <answer>mouth</answer>
-    </pair>
-    <pair targetx='259' targety='128'>
-        <question labelx='8' labely='190'>oesophagus</question>
-        <answer>oesophagus</answer>
-    </pair>
-    <pair targetx='290' targety='244'>
-        <question labelx='8' labely='250'>stomach</question>
-        <answer>stomach</answer>
-    </pair>
-    <pair targetx='301' targety='263'>
-        <question labelx='8' labely='310'>pancreas</question>
-        <answer>pancreas</answer>
-    </pair>
-    <pair targetx='241' targety='309'>
-        <question labelx='400' labely='80'>small intestine</question>
-        <answer>small intestine</answer>
-    </pair>
-    <pair targetx='238' targety='290'>
-        <question labelx='400' labely='140'>large intestine</question>
-        <answer>large intestine</answer>
-    </pair>
-    <pair targetx='218' targety='362'>
-        <question labelx='400' labely='200'>appendix</question>
-        <answer>appendix</answer>
-    </pair>
-    <pair targetx='245' targety='395'>
-        <question labelx='400' labely='260'>anus</question>
-        <answer>anus</answer>
-    </pair>
-    <pair targetx='216' targety='222'>
-        <question labelx='400' labely='320'>liver</question>
-        <answer>liver</answer>
-    </pair>
-    <pair targetx='224' targety='244'>
-        <question labelx='400' labely='380'>gall bladder</question>
-        <answer>gall bladder</answer>
-    </pair>
-    <pair targetx='295' targety='325'>
-        <question labelx='8' labely='360'>colon</question>
-        <answer>colon</answer>
-    </pair>
+<?xml version="1.0" encoding="iso-8859-1"?>
+<match title='' numberofmemoryquestions= '10' numberofflipquestions= '10' backgroundimage='' backgroundname=''>
+<pair>
+<question>Enthalpy of combusion is the enthalpy change when...</question>
+<answer>one mole of the substance is completely burnt, with all reactants and products in their standard states.</answer></pair>
+
+<pair>
+<question>The molar heat of vaporisation is the energy required to change...</question>
+<answer> one mole of the substance from a liquid to a gas at its boiling point.</answer></pair>
+
+
+<pair>
+<question>Entropy is...</question>
+<answer> the quantity that measures the amount of disorder in a system</answer></pair>
+
+<pair>
+<question>The enthalpy of formation is the enthalpy change when... </question>
+<answer> one mole of the substance is formed from its elements, with all reactants and products in their standard states.</answer></pair>
+
+
+<pair>
+<question>Temperature...</question>
+<answer>is proportional to the average kinetic energy of the particles.</answer></pair>
+
+<pair>
+<question>The molar heat of fusion is the energy required to change... </question>
+<answer> one mole of the substance from a solid to a liquid at its melting point.</answer></pair>
+
+<pair>
+<question>Heat...</question>
+<answer>is the sum of the kinetic energies of all the particles in a sample.</answer></pair>
+
+
+<pair>
+<question>Hess's law: the enthalpy change of a given chemical reaction...</question>
+<answer>depends only on the states of the reactants and products and not on the way the reaction proceeds.</answer></pair>
+
+
+<pair>
+<question>A spontaneous process is...</question>
+<answer> a rearrangement of particles from a less probable state to a more probable one.</answer></pair>
+
+<pair>
+<question>The specific heat capacity is the amount of heat energy required... </question>
+<answer> to raise the temperature of one gram of the substance by one degree.</answer></pair>
 </match>

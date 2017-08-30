@@ -7,9 +7,9 @@ window.onload = function() {
         if (request.status >= 200 && request.status < 400) {
             // success
             let xml = request.responseXML
-            let inputTxt = document.getElementById('txt')
-            inputTxt.addEventListener("keyup", guessWord);
-            //guessWord()
+            let quiz = new Quiz(xml)
+            View.setUp(quiz)
+            let controller = new Controller(quiz, View)
         }
     }
 
@@ -18,59 +18,7 @@ window.onload = function() {
     }
 
     request.send()
-    function guessWord(){
-            let question = document.getElementById("xmlQuestion").value
-
-            let clue = document.getElementById("xmlClue").innerHTML
-
-
-            //set up the answer array
-            var answerArray = clue.split('');
-            // alert(clue)
-            var remainingLetters = 0
-            for (var i = 0; i < clue.length; i++) {
-
-                if (clue[i] === "_")
-                    remainingLetters++
-            }
-
-
-            //The game loop
-            if (remainingLetters >= 0) {
-
-                //show the player their progress
-                //alert(answerArray.join(" "));
-
-                //Get a guess from the player
-                var guess = document.getElementById("txt").value
-                //alert(guess)
-
-
-                //convert toLowerCase
-                var guessLower = guess.toLowerCase();
-                if (guessLower === null) {
-                    alert("please input word")
-
-                } else {
-                    let guessArray = guessLower.split('')
-                    //alert(guessArray.toString())
-                    for (let i = 0; i < guessArray.length; i++) {
-
-                        //update the game state with the guess
-                        for (var j = 0; j < question.length; j++) {
-                            if (question[j].toLowerCase() === guessLower[i]) {
-                                answerArray[j] = question[j];
-                                document.getElementById("xmlClue").innerHTML = answerArray.join("")
-                                remainingLetters--;
-                            }
-                        }
-                    }
-
-                }
-
-
-            }
-    }
+   
     function EnterPress(e) {   
         var e = e || window.event;
         if (e.keyCode == 13) {

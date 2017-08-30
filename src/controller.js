@@ -12,7 +12,7 @@ class Controller {
         // View: View class 
         Controller.myView = newView
         // The array of the labels or the input boxess
-        Controller.boxes = []
+       // Controller.boxes = []
         Controller.createQuizElements()
         Controller.setUpEventListeners()
     }
@@ -23,67 +23,43 @@ class Controller {
      */
     static createQuizElements() {
         // Get the quiz input type
-        let quizType = Controller.myQuiz.getQuizType()
+       // let quizType = Controller.myQuiz.getQuizType()
         // Create quiz image in the web
-        let questionImg = Controller.myView.createQuestionImg()
+        //let questionImg = Controller.myView.createQuestionImg()
         // Get all the questionAnswer set
-        let questions = Controller.myQuiz.quiz.map(questionAnswerSet => questionAnswerSet)
+        let hangmans = Controller.myQuiz.myHangmans
 
-        for (let i = 0; i < questions.length; i++) {
+        for (let i = 0; i < hangmans.length; i++) {
             // Create question label
-            let box = Controller.myView.createQuestionBoxElement(questions[i], quizType)
+            Controller.myView.createHangmanBoxElement(hangmans[i],i)
             // Create red point spot
-            let point = Controller.myView.createPointElement(questions[i], box)
+          //  let point = Controller.myView.createPointElement(questions[i], box)
             // Best Option: draw the index to match each taget point and label
-            Controller.myView.createIndex(point, box, i)
+          //  Controller.myView.createIndex(point, box, i)
         }
 
-        if (quizType == 'drag') {
-            Controller.myQuiz.forAllAnswers(answer => {
-                Controller.myView.createAnswerCardElement(answer.answerText)
-                let checkBtn = document.getElementById('btn-check')
-                checkBtn.style.display = 'none'
-            })
-
-            Controller.myView.shuffleContents('boxes')
-            Controller.myView.shuffleContents('answers')
-        } else {
-            // hide the score div
-            let scoreDiv = document.getElementById('score-display')
-            scoreDiv.style.display = 'none'
-        }
     }
 
     /**
      * Set up events listeners
      */
     static setUpEventListeners() {
-        window.addEventListener('checkEvent', Controller.checkEventHandler, false) // when "check" button clicked
-        window.addEventListener('submitEvent', Controller.submitEventHandler, false) // when "submit" button clicked
-        window.addEventListener('tryAgainEvent', Controller.tryAgainEventHandler, false) // when "Try Again" button clicked
-        window.addEventListener('scoreUpdateEvent', Controller.scoreUpdateEventHandler, false) // when quiz score is updated
+      //  window.addEventListener('keyupEvent', Controller.keyupEventHandler, false) // when "check" button clicked
+      //  window.addEventListener('submitEvent', Controller.submitEventHandler, false) // when "submit" button clicked
+      //  window.addEventListener('tryAgainEvent', Controller.tryAgainEventHandler, false) // when "Try Again" button clicked
+      //  window.addEventListener('scoreUpdateEvent', Controller.scoreUpdateEventHandler, false) // when quiz score is updated
         //   window.addEventListener('resizeIframeEvent', Controller.resizeIframeEventHandler, false) // when an answer card is moved to a correct box
-        window.addEventListener('dropEvent', Controller.dropEventHandler, false) // when an answer card is dropped to a box
+      //  window.addEventListener('dropEvent', Controller.dropEventHandler, false) // when an answer card is dropped to a box
     }
     /**
      * Build up check button event
      */
-    static checkEventHandler(event) {
-        // Get all the questionAnswer set
-        let questions = Controller.myQuiz.quiz.map(questionAnswerSet => questionAnswerSet)
 
-        for (let i = 0; i < questions.length; i++) {
-            let question = questions[i].question.trim().toLowerCase()
-            let answerObj = document.getElementById(question).childNodes[0]
-            let answer = answerObj.innerText.trim().toLowerCase()
-            if (question != answer) {
-                answerObj.innerText = ''
-                answerObj.style.backgroundColor = 'pink'
-            } else {
-                answerObj.style.backgroundColor = 'white'
-            }
-        }
-        let checkTime = ++Controller.myQuiz.checkTime
+    static keyupEventHandler (event,i) {
+        // Get all the questionAnswer set
+            //let question = document.getElementById("xmlQuestion").value
+
+          
     }
     /**
      * Build up submit button event

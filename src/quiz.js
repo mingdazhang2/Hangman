@@ -3,13 +3,11 @@
 class Quiz {
     constructor(xml) {
         this.xml = xml // The config.xml file
-        this.quiz = [] // [{question: "label", answers: [Answer1, Answer2...],}...]
+        this.myHangmans = [] // [{hangman1},{hangman2}...]
         this.passingScore = 0 // The passingScore in the xml file
         this.score = 0 // The score that shows in the top of the screen
         this.incorrectWeight = 0 // For calculating the score
-		this.labels = [] //[{labelX:"",labelY:""}]
-        this.inputType = "" // The inputType in the xml file, it can be "drag" or other type like input
-       	this.checkTime = 0
+		
         this.setUp() 
         
     }
@@ -19,11 +17,11 @@ class Quiz {
     		// Create Quiz elements
         this.createQuiz()
         // Set the passing score
-        this.setPassingScore()
+       // this.setPassingScore()
         // Set the answerscore base on the number of the answer cards
-        this.setAnswerScore()
+        //this.setAnswerScore()
         // Set the weight of answer for calculating the final score
-        this.setIncorrectWeight()
+        //this.setIncorrectWeight()
     }
     /* Get the quiz type 
     * it includes "drag" and "input" types
@@ -37,42 +35,17 @@ class Quiz {
 		*/ 
     createQuiz() {	
     		// Get question list
-  		  let questions = this.xml.getElementsByTagName('question')
+  		  let pairs = this.xml.getElementsByTagName('pair')
   		  // Loop the question list to get "labely", "labelX", "tagetX", "tagetY" to set the location of labels and tagetPoints
-  		  Array.from(questions).forEach( question =>{
-  		  	let labelY = question.attributes.getNamedItem("labely").value
-  		  	let labelX = question.attributes.getNamedItem("labelx").value
-          let labelEntry = {
-          	labelY:labelY,
-          	labelX:labelX
-          	}
-          
-          this.labels.push(labelEntry)
+  		  Array.from(pairs).forEach( pair =>{
+            let question = pair.getElementsByTagName('question')[0].innerHTML
+            let answer = pair.getElementsByTagName('answer')[0].innerHTML
+            let hangman = {'question':question,'answer':answer}
+            this.myHangmans.push(hangman)
   		  	})
           
     	
-        let boxes = this.xml.getElementsByTagName('pair')
-        Array.from(boxes).forEach( aBox => {
-            let label = aBox.getElementsByTagName('question')[0].innerHTML
-            let targetX = aBox.attributes.getNamedItem("targetx").value
-            let targetY = aBox.attributes.getNamedItem("targety").value
-            let contentsXml = aBox.getElementsByTagName('answer')
-            let contents = Array.from(contentsXml).map(element => element.innerHTML)
-  
-            let answers = []
-            contents.forEach( aContent => {
-                let newAnswer = new Answer(aContent)
-                answers.push(newAnswer)
-            })
-
-            let questionAnswerSet = {
-                question: label,
-                answers: answers,
-               	targetX:targetX,
-               	targetY:targetY
-            }
-            this.quiz.push(questionAnswerSet)
-        })
+        
     }
 		/*Setting the passing score of quiz
 		*/ 
