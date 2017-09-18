@@ -5,5 +5,9 @@ class Hangman {
     this.question = question
     this.answer = answer
     this.clue = ''
+    this.wrongInput = ''
+    this.wrongInputTime = 0
+    this.inputs = ''
+    this.remainingLetters = 0
   }
 }

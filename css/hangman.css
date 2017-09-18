@@ -66,7 +66,7 @@ img {
 }
 .hangman{
     width:30em;
-    height: 6.6em;
+    height: 10em;
     margin: 0 auto;
     border: 1px solid black;
     margin: 1rem auto;
@@ -108,16 +108,16 @@ img {
    
 }
 
-.input-answer{
+.input-answer,.questionError-box,.wrongInputTime-box{
 	display:block;
 	background-color:white;
 	border: 2px solid #8CB3E4;
-	width:100%;
-	height:100%
-	font-size:4%;
+	width:40%;
+	height:20%;
+	font-size:12px;
 	//position:absolute;
 	text-align: center;
-  margin: auto;
+    margin: auto;
 	}
 .question-box .answer-card{
 		margin: 0;

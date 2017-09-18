@@ -71,10 +71,10 @@ window.onload = function() {
 
             }
     }
-    function EnterPress(e) {   
-        var e = e || window.event;
-        if (e.keyCode == 13) {
-            document.getElementById("txt").focus();
-        }
-    }
+    // function EnterPress(e) {   
+    //     var e = e || window.event;
+    //     if (e.keyCode == 13) {
+    //         document.getElementById("txt").focus();
+    //     }
+    // }
 }
