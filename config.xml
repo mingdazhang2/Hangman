@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="iso-8859-1"?>
-<match title='' numberofmemoryquestions= '10' numberofflipquestions= '10' backgroundimage='' backgroundname=''>
+<match title='' numberofmemoryquestions= '4' numberofflipquestions= '10' backgroundimage='' backgroundname=''>
+<passing-score>80</passing-score>
 <pair>
 <question>Enthalpy of combusion is the enthalpy change when...</question>
 <answer>one mole of the substance is completely burnt, with all reactants and products in their standard states.</answer></pair>

@@ -11,7 +11,7 @@ class Quiz {
         this.passingScore = 0 // The passingScore in the xml file
         this.score = 0 // The score that shows in the top of the screen
         this.incorrectWeight = 0 // For calculating the score
-		
+		this.numOfHangman = 0
         this.setUp() 
         
     }
@@ -22,35 +22,73 @@ class Quiz {
     		// Create Quiz elements
         this.createQuiz()
         // Set the passing score
-       // this.setPassingScore()
-        // Set the answerscore base on the number of the answer cards
-        //this.setAnswerScore()
-        // Set the weight of answer for calculating the final score
-        //this.setIncorrectWeight()
+        this.setPassingScore()
+       
     }
-    /* Get the quiz type 
-    * it includes "drag" and "input" types
-    */ 
-	getQuizType(){
-			return  this.xml.getElementsByTagName('match')[0].attributes.getNamedItem("inputtype").value 
-		}
-		/*Get the parameters from the xml 
-		*for building up the quiz.
+  
+	   /**
+        *Get the parameters from the xml,for building up the quiz. 
 		*/ 
     createQuiz() {	
-    		// Get question list
+    	
   		  let pairs = this.xml.getElementsByTagName('pair')
-  		  // Loop the question list to get "labely", "labelX", "tagetX", "tagetY" to set the location of labels and tagetPoints
+          let numOfHangman = this.xml.getElementsByTagName('match')[0].attributes.getNamedItem('numberofmemoryquestions').value
+          let numOfQuestion = this.xml.getElementsByTagName('question').length
+          
+
   		  Array.from(pairs).forEach( pair =>{
             let question = pair.getElementsByTagName('question')[0].innerHTML.trim()
             let answer = pair.getElementsByTagName('answer')[0].innerHTML.trim()
-            let hangman = {'question':question,'answer':answer,'wrongInput':'',wrongInputTime:0.,inputs:'','remainingLetters':0}
+            let clue = this.createClue(answer)
+            let remainingLetters = 0
+            for (let i = 0; i < clue.length; i++) {
+                
+                if (clue[i] === '*') {
+                remainingLetters++ 
+                }
+            }
+            let hangman = {'question':question,'answer':answer,'wrongInput':'','wrongInputTime':0,'inputs':'','clue':clue,'remainingLetters':remainingLetters,'chance':3,'limit':3,'isCorrect':false}
+            
             this.myHangmans.push(hangman)
-  		  	})
-          
-    	
-        
+  		  	}) 
+          if (numOfHangman-numOfQuestion<0){
+            this.myHangmans = this.getRandomArrayElements(this.myHangmans,numOfHangman)
+            }      
     }
+    /**
+     * Create clue string
+     * @param  {String} str The content in the clue Div tag
+     * @return  {String} Return a clue string
+     */
+    createClue (str) {
+    let reg = /[\ |\~|\`|\!|\@|\#|\$|\%|\^|\&|\*|\(|\)|\-|\_|\+|\=|\||\\|\[|\]|\{|\}|\;|\:|\"|\'|\,|\<|\.|\>|\/|\?]/
+    let cluStr = ''
+    for (let letter of str) {
+      if (!reg.test(letter)) {
+        letter = '*'
+      }
+      cluStr += letter
+    }
+    return cluStr
+}
+    /**
+     * Gets the random array elements from all the question.
+     *
+     * @param      {Array}  arr     The random sub array
+     * @param      {Number}  count   The numbers of sub array elements
+     * @return     {Array}  The random array elements.
+     */
+    getRandomArrayElements(arr, count) {
+            let shuffled = arr.slice(0), i = arr.length, min = i - count, temp, index;
+            while (i-- > min) {
+                index = Math.floor((i + 1) * Math.random());
+                temp = shuffled[index];
+                shuffled[index] = shuffled[i];
+                shuffled[i] = temp;
+            }
+            return shuffled.slice(min);
+        }
+
 		/*Setting the passing score of quiz
 		*/ 
     setPassingScore() {
@@ -60,84 +98,33 @@ class Quiz {
         }
         
     }
-		/*Call back each answer
-		*/ 
-    forAllAnswers(callback) {
-        this.quiz.forEach(questionAnswerSet => {
-            questionAnswerSet.answers.forEach(answer => {
-                callback(answer)
-            })
-        })
-    }
-		/*Get the length of the quiz
-		*/ 
+		/**
+         *Get the length of the quiz
+         *return     {Number} The number of hangmang questions
+	     */ 
     countQuestions() {
-        return this.quiz.length
+        return this.myHangmans.length
     }
-		/*count answers
-		*/
-    countAnswers() {
-        return this.quiz.reduce((acc, cur) => acc + cur.answers.length, 0)
+	/**
+     * Calculate the socre of total questions
+     * @return     {Number} Returns the finall score of the Hangman quiz 
+     */
+    calculateResult(questions) {
+        let score = 0
+        for (let i = 0; i < questions.length; i++) {
+         if(questions[i].isCorrect){
+            score+=questions[i].chance/questions[i].limit*this.getQuestionScore()
+            }
+        }
+        return Math.round(score)
     }
-		/*Calculating the score for each answer
-		*/ 
-    calcAnswerScore() {
-        let answerScore = 100 / this.countAnswers()
+		/**
+         *Calculating the score for each answer
+		 *@return     {Number} The score for each hangman question
+         */ 
+    getQuestionScore() {
+        let answerScore = 100 / this.countQuestions()
         return answerScore
     }
-		/*Calculating the incorrectWeigth
-		*/  
-    calcIncorrectWeight() {
-        let answerScore = this.calcAnswerScore()
-        let incorrectWeight = answerScore * (1 / (this.countQuestions() - 1))
-        return incorrectWeight
-    }
-		/*Set the score for each answer
-		*/ 
-    setAnswerScore() {
-        let answerScore = this.calcAnswerScore()
-        this.forAllAnswers(answer => {
-            answer.setAnswerScore(answerScore)
-        })
-    }
-		/*Reduce the Score when users get wrong answers
-		*/ 
-    reduceAnswerScore() {
-        //this.score -= answer.reduceAnswerScore(this.incorrectWeight)
-        this.score = this.score - this.calcIncorrectWeight()*this.calcAnswerScore()
-        this.score = (this.score <= 0) ? 0 : this.score
-        let eventInput = new Event('scoreUpdateEvent')
-        window.dispatchEvent(eventInput)
-    }
-		/*Set the incorrectWeight by calling 
-		*the calcIncorrectWeight function
-		*/ 
-    setIncorrectWeight() {
-        this.incorrectWeight = this.calcIncorrectWeight()
-    }
-		/* Adding up the updating score event
-		*/
-    addQuizScore(answer) {
-        this.score += answer.answerScore
-        let eventInput = new Event('scoreUpdateEvent')
-        window.dispatchEvent(eventInput)
-    }
-		/*Make the score to integer
-		*/ 
-    getRoundedQuizScore() {
-        return Math.round(this.score)
-    }
-		/* Find the answer
-		*/
-    findAnswer(innerHTML) {
-        let foundAnswer
-        this.forAllAnswers(answer => {
-            let p = document.createElement('p')
-            p.innerHTML = answer.answerText
-            if (p.innerHTML == innerHTML) {
-                foundAnswer = answer
-            }
-        })
-        return foundAnswer
-    }
+
 }

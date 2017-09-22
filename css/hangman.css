@@ -65,26 +65,35 @@ img {
 		margin:0 auto;
 }
 .hangman{
-    width:30em;
-    height: 10em;
-    margin: 0 auto;
+    width:100%;
+    height: 13em;
+    background-color:rgb(81, 88, 106) ;
     border: 1px solid black;
     margin: 1rem auto;
+    border-radius: 0.25rem;
+}
+.tip{
+    height: 100%;
+    width: 20%;
+    //border: 1px solid white;
+    color:rgba(255, 235, 59, 0.86);
+    margin: 0.25rem;
 }
 .question-box {
     flex-grow: 1;
     order: 2;
-    height:2.4rem;
+    height:3rem;
     z-index:10;   
-    margin: 0 0.25rem 0.25rem 0;
-    //border-radius: 0.25rem;
-    background-color: #8bc34a;
+    
+    background-color: rgb(37, 40, 48);
+    color:#1bc98e;
+    font-family: sans-serif; 
     padding: 0 ;
     display: flex;
-    flex-wrap: wrap;
-    align-items: flex-start;
-    justify-content: center;
-    width:28rem;
+    //flex-wrap: wrap;
+    //align-items: flex-start;
+    //justify-content: center;
+    width:100%;
     opacity:10.5;
     filter:alpha(opacity=150);
 }
@@ -105,18 +114,53 @@ img {
    // flex-basis: 100%;
    width:100%;
    height:100%;
+   margin:0.25rem;
    
 }
-
-.input-answer,.questionError-box,.wrongInputTime-box{
+.inputDiv{
+   display: flex; 
+}
+.input-clue p{
+    word-break:break-all; 
+    word-wrap:break-word; 
+}
+.input-clue img,.input-clue p{
+    margin: auto 0;
+}
+.input-clue{
+    color: #1bc98e;
+    font-size: 1.2rem;
+    height: 28%;
+    display: flex;
+    margin: 0.5rem;
+}
+.check-tip{
+   width:20px;
+    height:20px; 
+    font-size: 1.5rem;
+    color:rgba(255, 235, 59, 0.86);
+    position: absolute;
+    top:10px;
+    right:10px;
+}
+.questionError-box{
+    width:100%;
+    height:20%;
+    font-size: 1rem;
+    color: rgb(230, 71, 89);
+    margin: 0.5rem;
+}
+.input-answer{
 	display:block;
 	background-color:white;
-	border: 2px solid #8CB3E4;
-	width:40%;
+	border: 1px solid #8CB3E4;
+	width:50%;
 	height:20%;
-	font-size:12px;
-	//position:absolute;
-	text-align: center;
+	font-size:1rem;
+    font-style: italic;
+    color:#1ca8dd;
+    border-radius: 0.25rem;;
+	//text-align: center;
     margin: auto;
 	}
 .question-box .answer-card{

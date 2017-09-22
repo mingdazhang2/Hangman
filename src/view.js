@@ -8,9 +8,10 @@ class View {
    * @param      {Quiz}  quiz    The quiz
    */
   static setUp (quiz) {
-      //  View.setUpSubmitBtn('btn-submit')
-       // View.setUpInput('input-answer-',quiz)
-      //  View.setUpTryAgainBtn('btn-try-again')
+    View.setUpSubmitBtn('btn-submit')
+    //View.setUpScoreUpdate(quiz.calculateResult(quiz.myHangmans))
+    //View.setUpKeyup(quiz.myHangmans)
+    View.setUpTryAgainBtn('btn-try-again')
     View.quiz = quiz
      //   View.questionLabels = [] //[{"questionBox":questionBox,"label":label}]
   }
@@ -23,14 +24,22 @@ class View {
     let eventInput = new Event(eventName)
     window.dispatchEvent(eventInput)
   }
+  // static setUpKeyup(tagId){
 
-    /* Set up try submit button
+  //     document.getElementById(tagId).onkeyup = function(event) {
+  //                 View.fireCustomEvent('keyupEvent')
+  //         }
+      
+  // }
+    /**
+     * Set up try submit button
+     * param      {String} tagId   The tag identifier
      */
-    // static setUpSubmitBtn(tagId) {
-    //     document.getElementById(tagId).onclick = function(event) {
-    //         View.fireCustomEvent('submitEvent')
-    //     }
-    // }
+    static setUpSubmitBtn(tagId) {
+        document.getElementById(tagId).onclick = function(event) {
+            View.fireCustomEvent('submitEvent')
+        }
+    }
   /**
    * Set up block of deleting operating
    *
@@ -57,56 +66,57 @@ class View {
      */
   static setUpInput (tagId) {
     let inputTxt = document.getElementById(tagId)
+    let errorMsg = 'Error letters'
+    let chancTip = 'Chance'
     inputTxt.addEventListener('keyup', function (event) {
-            // if(event.keyCode == 8){
-            //     alert(8)
-            //      return ;
-            // }
-      let clue = this.parentElement.getElementsByClassName('input-clue')[0].innerText
+      //alert(event.keyCode)
+            if(event.keyCode == 224||event.keyCode ==9||event.keyCode == 16||event.keyCode == 17||event.keyCode == 18){
+                
+                 return ;
+            }
+      
       let hangmanAnswerIndex = this.id.substr(-1)
       let hangman = View.quiz.myHangmans[hangmanAnswerIndex]
+      let clue = this.parentElement.parentElement.getElementsByClassName('input-clue')[0].innerText
       let hangmanAnswer = hangman.answer
       let answerArray = clue.split('')
-      let remainingLetters = 0
+      // let remainingLetters = 0
+       
       
-      let wrongInputTime = 0
-      let guessTime = 0
+      let limitGuessTime = hangman.limit
       let audio = document.getElementById("failMusic");
-      for (let i = 0; i < clue.length; i++) {
-        if (clue[i] === '*') { remainingLetters++ }
-      }
-      hangman.remainingLetters=remainingLetters
+     
             // effective!
       let guess = this.value.substr(-1)
 
            // let guess = this.value
       let guessLower = guess.toLowerCase()
+
+     
+
       if (hangman.remainingLetters > 0) {
-                // Get a guess from the player
+          // Get a guess from the player
         let guessArr = this.value.toLowerCase().split('')
-        let inputs = ''
+       //If user inputs same letter more than twice, it will ignore the input  
         if (!hangman.inputs.split('').includes(guess)){
           hangman.inputs+=guess
-        }
-            guessTime++
-            // User inputs a wrong letter
-            if (!hangmanAnswer.split('').includes(guess)) {
+          // guessTime++
+          // User inputs a wrong letter
+             if (!hangmanAnswer.split('').includes(guess)) {
               
               audio.play();
-              if(!hangman.wrongInput.split('').includes(guess)){
+              if(!hangman.wrongInput.split('').includes(guess)&&event.keyCode!=8){
                 hangman.wrongInput += guess
-                hangman.wrongInputTime++
+                hangman.chance--
+                
               }
-              this.parentElement.getElementsByClassName('questionError-box')[0].innerText = hangman.wrongInput
-              this.parentElement.getElementsByClassName('wrongInputTime-box')[0].innerText = hangman.wrongInputTime
-        }
-        
-               // alert(guess)
-              // convert toLowerCase
 
-        if (guessLower === null) {
-          alert('please input word')
-        } else {
+              this.parentElement.parentElement.getElementsByClassName('questionError-box')[0].innerText = errorMsg +':'+ hangman.wrongInput
+              this.parentElement.parentElement.getElementsByClassName('tip')[0].innerText = chancTip+':'+(hangman.chance)+'/'+limitGuessTime
+        }
+                      // convert toLowerCase
+
+       
           let guessArray = guessLower.split('')
                     // alert(guessArray.toString())
           for (let i = 0; i < guessArray.length; i++) {
@@ -114,34 +124,69 @@ class View {
             for (let j = 0; j < hangmanAnswer.length; j++) {
               if (hangmanAnswer[j].toLowerCase() === guessLower[i]) {
                 answerArray[j] = hangmanAnswer[j]
-                this.parentElement.getElementsByClassName('input-clue')[0].innerText = answerArray.join('')
+                this.parentElement.parentElement.getElementsByClassName('input-clue')[0].innerText = answerArray.join('')
+                hangman.clue = answerArray.join('')
                 hangman.remainingLetters--
               }
             }
+     
           }
-        }
-      }else if(hangman.remainingLetters<=0){
-        // if (!hangman.inputs.split('').includes(guess)){
-        //   hangman.inputs+=guess
-        // }
-         inputTxt.style.backgroundColor =  "#9aecef"     
-         // inputTxt.value.substr(0,inputTxt.value.length-1)
-         inputTxt.disabled="disabled"
 
-         // fontcolor("green");
-         // alert(inputTxt.value)
+        }
+      } 
+    
+    if(hangman.remainingLetters<=0){
+        
+         inputTxt.style.backgroundColor =  "#9aecef"     
+          inputTxt.disabled='disabled'
+         //this.parentElement.getElementsByClassName('check-icon')[0].innerText = "Correct!"
+         this.parentElement.getElementsByClassName('check-icon')[0].style.visibility = 'visible'
+         this.parentElement.getElementsByClassName('check-icon')[0].setAttribute('src','images/tick.png')
+         hangman.isCorrect = true
+         View.setUpScoreUpdate(View.quiz.calculateResult(View.quiz.myHangmans))
+               // fontcolor("green");
           }
+       if(hangman.chance==0){
+       this.disabled='disabled'
+       this.style.backgroundColor =  "lightgrey"
+       this.parentElement.getElementsByClassName('check-icon')[0].style.visibility = 'visible'
+       this.parentElement.getElementsByClassName('check-icon')[0].setAttribute('src','images/cross.png')
+       let answerArr =hangman.answer.split('')
+       let clueArr = hangman.clue.split('')
+       // In order to compare the different between quesiton and user's input
+       for(let i= 0 ; i<answerArr.length;i++){
+                        // recurse into the nested arrays
+            
+            if (answerArr[i]!==clueArr[i]){
+              answerArr[i]='<font color = "yellow">'+ answerArr[i]+'</font>'
+            }
+            // else if(answerArr[i]===' '){
+            //   answerArr[i]='&nbsp;'
+            // }
+
+
+                    
+          } 
+          hangman.clue = '<p>'+answerArr.join('')+'</p>'  
+         // hangman.clue = answerArr.join('')
+          this.parentElement.parentElement.getElementsByClassName('input-clue')[0].innerHTML=hangman.clue
+       // alert(hangman.answer)
+       // alert(hangman.clue)
+
+      }
           inputTxt.value = hangman.inputs
     })
   }
 
-    /* Set up try again button
+    /** 
+     * Set up try again button
+     * @param      {String} tagId The id of try again button
      */
-    // static setUpTryAgainBtn(tagId) {
-    //     document.getElementById(tagId).onclick = function(event) {
-    //         View.fireCustomEvent('tryAgainEvent')
-    //     }
-    // }
+    static setUpTryAgainBtn(tagId) {
+        document.getElementById(tagId).onclick = function(event) {
+            View.fireCustomEvent('tryAgainEvent')
+        }
+    }
 
     /**
      * Create a div element with a p tag
@@ -155,27 +200,48 @@ class View {
     div.appendChild(p)
     return div
   }
-    /**
-     * Create clue div element with a p tag the content in the p tag filters the punctuations
-     * @param  {String} str The content in the clue Div tag
-     * return     {Dom} Return a div DOM object
-     */
-  static createClueElement (str) {
-    let reg = /[\ |\~|\`|\!|\@|\#|\$|\%|\^|\&|\*|\(|\)|\-|\_|\+|\=|\||\\|\[|\]|\{|\}|\;|\:|\"|\'|\,|\<|\.|\>|\/|\?]/
-    let cluStr = ''
-    for (let letter of str) {
-      if (!reg.test(letter)) {
-        letter = '*'
-      }
-      cluStr += letter
-    }
 
-    let div = document.createElement('div')
-    let p = document.createElement('p')
-    p.innerHTML = cluStr
-    div.appendChild(p)
-    return div
-  }
+    /**
+     * Create a div element with a p tag
+     * @param  {String} str The content in the Div tag
+     * @return {Dom} Return a div DOM object
+     */
+  // static createClueDivElement (str) {
+  //   let div = document.createElement('div')
+  //   let p = document.createElement('p')
+  //   p.innerHTML = str
+  //   let img = document.createElement('img')
+  //   let dir = 'images/' + 'cross.png'
+  //   img.classList.add("tickImg");
+  //     img.setAttribute('src', dir)
+  //     img.setAttribute('width', '20px')
+  //     img.setAttribute('height', '20px')
+  //     //img.setAttribute('hidden','true')
+  //   div.appendChild(p)
+  //   div.appendChild(img)
+  //   return div
+  // }
+  //   /**
+  //    * Create clue div element with a p tag the content in the p tag filters the punctuations
+  //    * @param  {String} str The content in the clue Div tag
+  //    * return     {Dom} Return a div DOM object
+  //    */
+  // static createClueElement (str) {
+  //   let reg = /[\ |\~|\`|\!|\@|\#|\$|\%|\^|\&|\*|\(|\)|\-|\_|\+|\=|\||\\|\[|\]|\{|\}|\;|\:|\"|\'|\,|\<|\.|\>|\/|\?]/
+  //   let cluStr = ''
+  //   for (let letter of str) {
+  //     if (!reg.test(letter)) {
+  //       letter = '*'
+  //     }
+  //     cluStr += letter
+  //   }
+
+  //   let div = document.createElement('div')
+  //   let p = document.createElement('p')
+  //   p.innerHTML = cluStr
+  //   div.appendChild(p)
+  //   return div
+  // }
     /**
      * Create a input element
      * @return {Dom} return an input DOM object
@@ -254,8 +320,14 @@ class View {
     hangmanDiv.classList.add('hangman')
     let hangmanId = 'hangman-' + (i)
     hangmanDiv.setAttribute('id', hangmanId)
-        //  if (boxContainer.childNodes.length==0){
+        
+    let tipDive = View.createDivElement("Chance: " + obj.chance+'/'+obj.chance)
+    tipDive.setAttribute('id', 'tip-'+i)
+
+    tipDive.classList.add('tip')
+        
     let questionBox = View.createDivElement(obj.question)
+    questionBox.appendChild(tipDive)
 
     boxContainer.setAttribute('style', 'position:relative')
         // boxContainer.setAttribute("style", "background-image: url(" + dir + ");background-repeat: no-repeat;background-size: 100%");
@@ -263,28 +335,43 @@ class View {
         // questionBox.setAttribute("id", obj.question)
     hangmanDiv.appendChild(questionBox)
 
-    let cluePanel = View.createClueElement(obj.answer)
+    let cluePanel = View.createDivElement(obj.clue)
     let cluePanelId = 'input-clue-' + (i)
     cluePanel.setAttribute('id', cluePanelId)
     cluePanel.setAttribute('class', 'input-clue')
     hangmanDiv.appendChild(cluePanel)
 
+    let inputBoxDiv = document.createElement('div')
+    inputBoxDiv.classList.add('inputDiv')
+    hangmanDiv.appendChild(inputBoxDiv)
+
     let answerInput = View.createInputElement('')
     let asswerInputId = 'input-answer-' + (i)
     answerInput.setAttribute('id', asswerInputId)
-    hangmanDiv.appendChild(answerInput)
+    // answerInput.classList.add('input-answer')
+    inputBoxDiv.appendChild(answerInput)
 
     let questionErrorBox = View.createDivElement('')
     questionErrorBox.classList.add('questionError-box')
     hangmanDiv.appendChild(questionErrorBox)
 
-    let wrongTimeBox = View.createDivElement('')
-    wrongTimeBox.classList.add('wrongInputTime-box')
-    hangmanDiv.appendChild(wrongTimeBox)
+    // let wrongTimeBox = View.createDivElement('')
+    
+    let checkIcon = document.createElement('img')
+          let dir = 'images/' + 'tick.png'
+          checkIcon.classList.add("check-icon");
+          //checkIcon.setAttribute('src', dir)
+          checkIcon.setAttribute('width', '20px')
+          checkIcon.setAttribute('height', '20px')
+         // wrongTimeBox.setAttribute('hidden',true)
+          checkIcon.style.visibility = 'hidden'
+    inputBoxDiv.appendChild(checkIcon)
 
     boxContainer.appendChild(hangmanDiv)
-    this.setUpInput(asswerInputId)
     this.setUpNoDelete(asswerInputId)
+    this.setUpInput(asswerInputId)
+   // this.setUpKeyup(asswerInputId)
+    
   }
 
     // /* Set up the style and position of the target point
@@ -395,12 +482,16 @@ class View {
     //         $(div).draggable('disable')
     //     })
     // }
-    // /*Update the socer
-    //  */
-    // static updateCurrentScore(score) {
-    //     let currentScoreElement = document.getElementById('current-score')
-    //     currentScoreElement.innerHTML = score
-    // }
+    /**
+     * Update the socer
+     * param      {Number} score The score user get 
+     */
+    static setUpScoreUpdate(score) {
+        let currentScoreElement = document.getElementById('current-score')
+        currentScoreElement.innerHTML = score
+        // let eventInput = new Event('scoreUpdateEvent')
+        // window.dispatchEvent(eventInput)
+    }
     // /*Send the score to Moodle
     //  */
     // static sendScoreToMoodle(score) {
@@ -408,40 +499,24 @@ class View {
     //     form.mark.value = score
     //     //form.submit() //commented out because it refreshes page
     // }
-    // /*Display the result of score
-    //  */
-    // static displayResult(score, passingScore) {
-    //     let scoreElement = document.getElementById('score')
-    //     scoreElement.innerHTML = score
+    /*Display the result of score
+     */
+    static displayResult(score, passingScore) {
+        let scoreElement = document.getElementById('score')
+        scoreElement.innerHTML = score
+        
+        let passingScoreElement = document.getElementById('passing-score')
+        passingScoreElement.innerHTML = passingScore
+        
+        let finalMessage = document.getElementById('final-message')
+        if (score >= passingScore) {
+            finalMessage.innerHTML = 'Well done! A great result!'
+        } else {
+            finalMessage.innerHTML = 'Sorry you failed this time, but try again!'
+        }
 
-    //     let passingScoreElement = document.getElementById('passing-score')
-    //     passingScoreElement.innerHTML = passingScore
+        let resultElement = document.getElementById('result')
+        resultElement.style.display = 'block'
+    }
 
-    //     let finalMessage = document.getElementById('final-message')
-    //     if (score >= passingScore) {
-    //         finalMessage.innerHTML = 'Well done! A great result!'
-    //     } else {
-    //         finalMessage.innerHTML = 'Sorry you failed this time, but try again!'
-    //     }
-
-    //     let resultElement = document.getElementById('result')
-    //     resultElement.style.display = 'block'
-    // }
-    // /* Calculate the socre for input type quiz
-    //  */
-    // static calculateResultInput(questions) {
-    //     let score = 0
-    //     for (let i = 0; i < questions.length; i++) {
-    //         let boxId = questions[i].answers[0].answerText
-    //         let boxScore = questions[i].answers[0].answerScore
-    //         let box = document.getElementById(boxId)
-    //         let answer = box.getElementsByTagName("p")[0].innerHTML.trim()
-    //         if (boxId.toLowerCase() === answer.toLowerCase()) {
-    //             score += parseInt(boxScore)
-    //         } else {
-
-    //         }
-    //     }
-    //     return Math.round(score)
-    // }
 }

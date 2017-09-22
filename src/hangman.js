@@ -9,5 +9,7 @@ class Hangman {
     this.wrongInputTime = 0
     this.inputs = ''
     this.remainingLetters = 0
+    this.chance = 0
+    this.isCorrect = false
   }
 }
