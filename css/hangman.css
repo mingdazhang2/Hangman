@@ -64,6 +64,9 @@ sup {
 img {
 		margin:0 auto;
 }
+#hangmanQuiz {
+    background-color: #f2f8da;
+}
 .hangman{
     width:100%;
     height: 13em;
@@ -84,15 +87,12 @@ img {
     order: 2;
     height:3rem;
     z-index:10;   
-    
+    overflow: hidden;
     background-color: rgb(37, 40, 48);
     color:#1bc98e;
     font-family: sans-serif; 
     padding: 0 ;
     display: flex;
-    //flex-wrap: wrap;
-    //align-items: flex-start;
-    //justify-content: center;
     width:100%;
     opacity:10.5;
     filter:alpha(opacity=150);
@@ -110,8 +110,8 @@ img {
 	 display: none;
 }
 .question-box > p {
-	  display: block;
-   // flex-basis: 100%;
+   display: block;
+   
    width:100%;
    height:100%;
    margin:0.25rem;
@@ -123,6 +123,7 @@ img {
 .input-clue p{
     word-break:break-all; 
     word-wrap:break-word; 
+
 }
 .input-clue img,.input-clue p{
     margin: auto 0;
@@ -163,49 +164,10 @@ img {
 	//text-align: center;
     margin: auto;
 	}
-.question-box .answer-card{
+.question-box {
 		margin: 0;
 	}
 
-#answers,
-.answer-card {
-    border: 1px solid #e3e3e3;
-    border-radius: 0.25rem;
-    padding: 0;
-    z-index:501;
-}
-
-#answers {
-    display: flex;
-    
-    flex-wrap: wrap;
-    margin: 0;
-    padding: 0.25rem;
-    background: #fff;
-    min-height: 3rem;
-    max-width: 100%;
-}
-
-.answer-card {
-    
-    height: 2rem;
-    margin: 0.25rem;
-    padding: 0 0;
-    background: #f5f5f5;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    text-align: center;
-}
-
-
-.answer-card.ui-draggable-dragging {
-    -moz-box-shadow: 0 0 .5em rgba(0, 0, 0, .8);
-    -webkit-box-shadow: 0 0 .5em rgba(0, 0, 0, .8);
-    box-shadow: 0 0 .5em rgba(0, 0, 0, .8);
-    z-index: 50;
-    
-}
 
 #scoreDiv {
 		display:flex;
@@ -261,32 +223,23 @@ img {
   		width:100%;
   		font-size:10px;
   	}
+    .hangman {
+        height: 10rem;
+    }
     #boxes {
         margin: 0 auto;
         flex-wrap: wrap;
     }
  		
-   
-
-    .answer-card, .question-box {
-        height:1rem;
-        
-        width:3.8rem;
+   .input-clue{
+        font-size: 12px;
     }
 
-    .question-box > p {
-        margin-top: 0;
+    .question-box {
+        height:2.4rem;
+        width:100%;
+        font-size: 11px;
     }
-
-    #answers {
-        margin: 0.75rem 0;
-        padding: 0.5rem;
-    }
-
-    .answer-card p{
-     font-size: 0.5rem;
-    }
-
 		
     #result p {
         font-size: 1rem;

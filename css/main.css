@@ -36,9 +36,9 @@ body {
 }
 @media screen and (min-width: 20rem) { 
 		#quiz {
-    width: 19rem;
+    width: 20rem;
     
-    height: 27rem;
+    height: 70rem;
     overflow: hidden;
 		}
 		#boxes {
@@ -63,7 +63,7 @@ body {
 		#quiz {
     width: 59rem;
     
-    height: 60rem;
+    height: 90rem;
     overflow: hidden;
 		}
 		#boxes {
