@@ -47,7 +47,7 @@ class Quiz {
                 remainingLetters++ 
                 }
             }
-            let hangman = {'question':question,'answer':answer,'wrongInput':'','wrongInputTime':0,'inputs':'','clue':clue,'remainingLetters':remainingLetters,'chance':3,'limit':3,'isCorrect':false}
+            let hangman = {'question':question,'answer':answer,'wrongInput':'','wrongInputTime':0,'inputs':'','clue':clue,'remainingLetters':remainingLetters,'chance':3,'limit':3,'isCorrect':false,'clue':clue,'remainingLetters':remainingLetters}
             
             this.myHangmans.push(hangman)
   		  	}) 

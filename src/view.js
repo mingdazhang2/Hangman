@@ -9,11 +9,10 @@ class View {
    */
   static setUp (quiz) {
     View.setUpSubmitBtn('btn-submit')
-    //View.setUpScoreUpdate(quiz.calculateResult(quiz.myHangmans))
-    //View.setUpKeyup(quiz.myHangmans)
+   
     View.setUpTryAgainBtn('btn-try-again')
     View.quiz = quiz
-     //   View.questionLabels = [] //[{"questionBox":questionBox,"label":label}]
+    
   }
 
     /**
@@ -24,13 +23,8 @@ class View {
     let eventInput = new Event(eventName)
     window.dispatchEvent(eventInput)
   }
-  // static setUpKeyup(tagId){
-
-  //     document.getElementById(tagId).onkeyup = function(event) {
-  //                 View.fireCustomEvent('keyupEvent')
-  //         }
       
-  // }
+  
     /**
      * Set up try submit button
      * param      {String} tagId   The tag identifier
@@ -40,6 +34,16 @@ class View {
             View.fireCustomEvent('submitEvent')
         }
     }
+   static setUpKeyup(tagId){
+   		let inputTxt = document.getElementById(tagId)
+    	inputTxt.addEventListener('keyup', function (event) {
+//alert(event.keyCode)
+            if(event.keyCode == 224||event.keyCode == 9||event.keyCode == 16||event.keyCode == 17||event.keyCode == 18||event.keyCode == 8){
+               
+                 return ;
+            }
+         })   
+   }
   /**
    * Set up block of deleting operating
    *
@@ -49,6 +53,7 @@ class View {
     let inputTxt = document.getElementById(tagId)
     inputTxt.addEventListener('keydown', function (event) {
       let obj = event.target || event.srcElement
+
 
       if (event.keyCode == 8) {
                 // alert(obj.readOnly)
@@ -68,17 +73,13 @@ class View {
     let inputTxt = document.getElementById(tagId)
     let errorMsg = 'Error letters'
     let chancTip = 'Chance'
-    inputTxt.addEventListener('keyup', function (event) {
-      //alert(event.keyCode)
-            if(event.keyCode == 224||event.keyCode ==9||event.keyCode == 16||event.keyCode == 17||event.keyCode == 18){
-                
-                 return ;
-            }
-      
+    inputTxt.addEventListener('input', function (event) {
+          
       let hangmanAnswerIndex = this.id.substr(-1)
       let hangman = View.quiz.myHangmans[hangmanAnswerIndex]
-      let clue = this.parentElement.parentElement.getElementsByClassName('input-clue')[0].innerText
-      let hangmanAnswer = hangman.answer
+      let clue = hangman.clue.toLowerCase().trim()
+      //let clue = this.parentElement.parentElement.getElementsByClassName('input-clue')[0].innerText
+      let hangmanAnswer = hangman.answer.toLowerCase().trim()
       let answerArray = clue.split('')
       // let remainingLetters = 0
        
@@ -87,10 +88,10 @@ class View {
       let audio = document.getElementById("failMusic");
      
             // effective!
-      let guess = this.value.substr(-1)
+      let guess = this.value.substr(-1).toLowerCase()
 
            // let guess = this.value
-      let guessLower = guess.toLowerCase()
+     // let guessLower = guess.toLowerCase()
 
      
 
@@ -105,10 +106,11 @@ class View {
              if (!hangmanAnswer.split('').includes(guess)) {
               
               audio.play();
-              if(!hangman.wrongInput.split('').includes(guess)&&event.keyCode!=8){
+              if(!hangman.wrongInput.split('').includes(guess)){
+              	if(guess!==''){
                 hangman.wrongInput += guess
                 hangman.chance--
-                
+                }
               }
 
               this.parentElement.parentElement.getElementsByClassName('questionError-box')[0].innerText = errorMsg +':'+ hangman.wrongInput
@@ -117,17 +119,21 @@ class View {
                       // convert toLowerCase
 
        
-          let guessArray = guessLower.split('')
+          let guessArray = guess.split('')
                     // alert(guessArray.toString())
           for (let i = 0; i < guessArray.length; i++) {
                         // update the game state with the guess
             for (let j = 0; j < hangmanAnswer.length; j++) {
-              if (hangmanAnswer[j].toLowerCase() === guessLower[i]) {
+              if (hangmanAnswer[j].toLowerCase() === guess[i]) {
                 answerArray[j] = hangmanAnswer[j]
                 this.parentElement.parentElement.getElementsByClassName('input-clue')[0].innerText = answerArray.join('')
                 hangman.clue = answerArray.join('')
-                hangman.remainingLetters--
-              }
+                 if(guess[i]!==' '){
+                 	 hangman.remainingLetters--	
+                 }
+               
+                
+                              }
             }
      
           }
@@ -252,62 +258,7 @@ class View {
     input.className = 'input-answer'
     return input
   }
-    // /*Create background image div
-    //  */
-    // static createQuestionImg() {
-    //     let question = document.getElementById('boxes')
-    //     let imgName = View.quiz.xml.getElementsByTagName('match')[0].attributes.getNamedItem("backgroundimage").value
-    //     let dir = "images/" + imgName
-    //     if (!document.getElementById('questionImg')) {
-    //         let questionImg = document.createElement('img')
-    //         questionImg.setAttribute("id", "questionImg")
-    //         questionImg.setAttribute("src", dir)
-
-    //         questionImg.setAttribute("width", "100%")
-    //         questionImg.setAttribute("height", "100%")
-
-    //         question.appendChild(questionImg)
-    //     }
-    //     return question
-    // }
-    // /*Create the point indicate the target
-    //  */
-    // static createPointElement(obj, box) {
-    //     let boxContainer = document.getElementById('boxes')
-    //     let targetX = obj.targetX
-    //     let targetY = obj.targetY
-
-    //     let questionImg = document.getElementById('questionImg')
-    //     let naturalWidth = questionImg.naturalWidth
-    //     let naturalHeight = questionImg.naturalHeight
-
-    //     let top = parseInt(targetY) / parseInt(naturalHeight) * 100
-    //     let left = parseInt(targetX) / parseInt(naturalWidth) * 100
-    //     let div = document.createElement('div')
-
-    //     let p = document.createElement('p')
-
-    //     p.innerHTML = obj.question + " "
-    //     div.appendChild(p)
-
-    //     let color = box.style.backgroundColor
-
-    //     div.setAttribute("class", "circle")
-    //     div.setAttribute("style", "position:absolute")
-    //     div.style.background = color
-    //     div.style.top = top + "%"
-    //     div.style.left = left + "%"
-
-    //     boxContainer.appendChild(div)
-    //     return div
-    // }
-    // /*Get a random number from the range n to m
-    //  */
-    // static randomNum(n, m) {
-    //     let c = m - n + 1;
-    //     return Math.floor(Math.random() * c + n);
-    // }
-    /**
+      /**
      * Creat a Hangman question box with its children nodes
      * @param  {Dom} obj The target DOM object
      * @param  {number} i The index of the object
@@ -369,119 +320,13 @@ class View {
 
     boxContainer.appendChild(hangmanDiv)
     this.setUpNoDelete(asswerInputId)
+    this.setUpKeyup(asswerInputId)
     this.setUpInput(asswerInputId)
-   // this.setUpKeyup(asswerInputId)
+    
     
   }
 
-    // /* Set up the style and position of the target point
-    //  */
-    // static point(x, y, index, color) {
-    //     let oDiv = document.createElement('div');
-    //     oDiv.style.position = 'absolute'
-    //     oDiv.style.height = '0.8rem'
-    //     oDiv.style.width = '0.8rem'
-    //     oDiv.style.backgroundColor = color
-    //     let questionImg = document.getElementById('questionImg')
-    //     let boxes = document.getElementById('boxes')
-    //     let imgWidth = questionImg.clientWidth
-    //     let imgHeight = questionImg.clientHeight
-    //     let top = parseInt(y - 6) / parseInt(imgHeight) * 100
-    //     let left = parseInt(x-2) / parseInt(imgWidth) * 100
-    //     oDiv.style.left = left + '%';
-    //     oDiv.style.top = top + '%';
-    //     let p = document.createElement('p')
-    //     p.style.fontSize = '0.6rem'
-    //     p.innerHTML = "" + parseInt(index + 1) + ""
-    //     oDiv.appendChild(p)
-    //     oDiv.setAttribute("class", "index")
-    //     boxes.appendChild(oDiv);
-    // }
 
-    // /*Create the index to match which
-    //  *target point match to which random label box
-    //  */
-    // static createIndex(point, box, index) {
-    //     let pointX = point.offsetLeft
-    //     let pointY = point.offsetTop
-
-    //     let boxX = box.offsetLeft
-    //     let boxY = box.offsetTop
-    //     let color = box.style.backgroundColor
-    //     View.point(pointX, pointY, index, color)
-    //     View.point(boxX, boxY, index, color)
-    // }
-
-    // /*Create AnswerCard function
-    //  */
-    // static createAnswerCardElement(str) {
-    //     let answerContainer = document.getElementById('answers')
-    //     let answerCard = View.createDivElement(str)
-    //     answerCard.classList.add('answer-card')
-    //     answerContainer.appendChild(answerCard)
-
-    //     $(answerCard).draggable({
-    //         containment: 'body',
-    //         revert: true
-    //     })
-    // }
-
-    // /*For shuffling question boxes and answer cards
-    //  */
-    // static shuffleContents(tagId) {
-    //     let target = document.getElementById(tagId)
-    //     let divs = target.getElementsByTagName('div')
-    //     for (let i = 0; i < divs.length; i++) {
-    //         let randomDivNumber = Math.floor(Math.random() * divs.length)
-    //         target.appendChild(Array.from(divs).splice(randomDivNumber, 1)[0])
-    //     }
-    // }
-
-    // /*Find a question box or answer card of specific strings
-    //  */
-    // static findDiv(tagId, str) {
-    //     let divs = document.getElementById(tagId).getElementsByTagName('div')
-    //     let foundDiv = Array.from(divs).find(div => {
-    //         //if(div.children[0].exist()){
-    //         if (div.childNodes.length != 0) {
-    //             let divContent = div.children[0].innerHTML
-    //             if (divContent == str) {
-
-    //                 return div
-    //             }
-    //         }
-    //     })
-
-    //     return foundDiv
-    // }
-    // /*Move answerCards to the Boxes
-    //  */
-    // static moveAnswerCardToBox(answer, question) {
-    //     let answerDiv = View.findDiv('answers', answer)
-    //     let questionDiv = View.findDiv('boxes', question)
-    //     questionDiv.appendChild(answerDiv)
-    //     questionDiv.setAttribute("class", "question-box finish");
-    //     // resize iframe to fit height after possible expansion of question box
-    //     //View.fireCustomEvent('resizeIframeEvent')
-    // }
-    // /*Remove draggable for the answer card
-    //  *which has already in the right box
-    //  */
-    // static removeDraggable(answer) {
-    //     let answerDiv = View.findDiv('answers', answer)
-    //     // setting revertDuration to 0 makes it look like snapping into a box
-    //     // revert is necessary because otherwise it keeps relative position
-    //     $(answerDiv).draggable('option', 'revertDuration', 0)
-    //     $(answerDiv).draggable('disable')
-    // }
-    // /* Remove all answers' draggable
-    //  */
-    // static removeDraggableAll() {
-    //     let divs = document.getElementById('answers').getElementsByTagName('div')
-    //     Array.from(divs).forEach(div => {
-    //         $(div).draggable('disable')
-    //     })
-    // }
     /**
      * Update the socer
      * param      {Number} score The score user get 
