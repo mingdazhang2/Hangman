@@ -4,6 +4,7 @@
 function resizeIframe() {
     let iframe = document.getElementById('quiz')
     iframe.style.height = (iframe.contentWindow.document.body.offsetHeight + 20) + 'px'
+    iframe.style.width = (iframe.contentWindow.document.body.offsetWidth + 20) + 'px'
 }
 
 let resizeHandler = function(event) {

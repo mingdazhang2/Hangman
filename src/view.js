@@ -258,7 +258,7 @@ class View {
     input.className = 'input-answer'
     return input
   }
-      /**
+    /**
      * Creat a Hangman question box with its children nodes
      * @param  {Dom} obj The target DOM object
      * @param  {number} i The index of the object
@@ -329,7 +329,7 @@ class View {
 
     /**
      * Update the socer
-     * param      {Number} score The score user get 
+     * @param      {Number} score The score user get 
      */
     static setUpScoreUpdate(score) {
         let currentScoreElement = document.getElementById('current-score')
@@ -337,14 +337,19 @@ class View {
         // let eventInput = new Event('scoreUpdateEvent')
         // window.dispatchEvent(eventInput)
     }
-    // /*Send the score to Moodle
-    //  */
-    // static sendScoreToMoodle(score) {
-    //     let form = window.parent.document.getElementById("store")
-    //     form.mark.value = score
-    //     //form.submit() //commented out because it refreshes page
-    // }
-    /*Display the result of score
+    /**
+     * Send the score to Moodle
+     * @param      {Number} score { The score user gets }
+     */
+    static sendScoreToMoodle(score) {
+        let form = window.parent.document.getElementById("store")
+        form.mark.value = score
+        //form.submit() //commented out because it refreshes page
+    }
+    /**
+     * Display the result of score
+     * @param      {Number} score { The score user gets }
+     * param      {Number} passingScore { The passing score}
      */
     static displayResult(score, passingScore) {
         let scoreElement = document.getElementById('score')
