@@ -41,93 +41,14 @@ class Controller {
         window.addEventListener('submitEvent', Controller.submitEventHandler, false) // when "submit" button clicked
         window.addEventListener('tryAgainEvent', Controller.tryAgainEventHandler, false) // when "Try Again" button clicked
        }
-    /**
-     * Build up check button event
-     */
-
- //    static keyupEventHandler (event) {
-    
- //    let errorMsg = 'Error letters'
- //    let chancTip = 'Chance'
- // if(event.keyCode == 224||event.keyCode ==9||event.keyCode == 16||event.keyCode == 17||event.keyCode == 18){
-                
- //                 return ;
- //            }
-      
- //      let hangmanAnswerIndex = event.id.substr(-1)
- //      let hangman = View.quiz.myHangmans[hangmanAnswerIndex]
- //      let clue = this.parentElement.parentElement.getElementsByClassName('input-clue')[0].innerText
- //      let hangmanAnswer = hangman.answer
- //      let answerArray = clue.split('')
-     
- //      let limitGuessTime = hangman.limit
- //      let audio = document.getElementById("failMusic");
-     
- //            // effective!
- //      let guess = this.value.substr(-1)
-
- //           // let guess = this.value
- //      let guessLower = guess.toLowerCase()
-
-     
-
- //      if (hangman.remainingLetters > 0) {
- //          // Get a guess from the player
- //        let guessArr = this.value.toLowerCase().split('')
- //       //If user inputs same letter more than twice, it will ignore the input  
- //        if (!hangman.inputs.split('').includes(guess)){
- //          hangman.inputs+=guess
-         
- //          // User inputs a wrong letter
- //             if (!hangmanAnswer.split('').includes(guess)) {
-              
- //              audio.play();
- //              if(!hangman.wrongInput.split('').includes(guess)&&event.keyCode!=8){
- //                hangman.wrongInput += guess
- //                hangman.chance--
-                
- //              }
-
- //              this.parentElement.parentElement.getElementsByClassName('questionError-box')[0].innerText = errorMsg +':'+ hangman.wrongInput
- //              this.parentElement.parentElement.getElementsByClassName('tip')[0].innerText = chancTip+':'+(hangman.chance)+'/'+limitGuessTime
- //        }
- //                      // convert toLowerCase
-
-       
- //          let guessArray = guessLower.split('')
-
- //          for (let i = 0; i < guessArray.length; i++) {
- //                        // update the game state with the guess
- //            for (let j = 0; j < hangmanAnswer.length; j++) {
- //              if (hangmanAnswer[j].toLowerCase() === guessLower[i]) {
- //                answerArray[j] = hangmanAnswer[j]
- //                this.parentElement.parentElement.getElementsByClassName('input-clue')[0].innerText = answerArray.join('')
- //                hangman.remainingLetters--
- //              }
- //            }
-     
- //          }
-
- //        }
- //      } 
-    
- //    if(hangman.remainingLetters<=0){
-        
- //         this.style.backgroundColor =  "#9aecef"     
- //          this.disabled='disabled'
-
- //         this.parentElement.getElementsByClassName('check-icon')[0].style.visibility = 'visible'
- //         this.parentElement.getElementsByClassName('check-icon')[0].setAttribute('src','images/tick.png')
-         
- //          }
- //       if(hangman.chance==0){
- //       this.disabled='disabled'
- //       this.style.backgroundColor =  "lightgrey"
- //        this.parentElement.getElementsByClassName('check-icon')[0].style.visibility = 'visible'
- //        this.parentElement.getElementsByClassName('check-icon')[0].setAttribute('src','images/cross.png')
- //      }
- //          this.value = hangman.inputs          
- //    }
+  /**
+   * Sleeping function
+   * @param  {Number} time The time that system sleep
+   * @return {Promise}      Returns a Promise object
+   */
+  static sleep (time) {
+  return new Promise((resolve) => setTimeout(resolve, time));
+}
     /**
      * Build up submit button event
      */
@@ -139,7 +60,11 @@ class Controller {
         let score = Controller.myQuiz.calculateResult(questions)
         
          Controller.myView.displayResult(score, passingScore)
-        // Controller.myView.sendScoreToMoodle(score)
+         Controller.sleep(3000).then(() => {
+    // The action after sleeping    
+    Controller.myView.sendScoreToMoodle(score)
+    }) 
+         
     }
     /* Try again event when uses have been marked,
      *the button appears on the prompt window

@@ -342,9 +342,10 @@ class View {
      * @param      {Number} score { The score user gets }
      */
     static sendScoreToMoodle(score) {
+    	console.log('Score successfully send!')
         let form = window.parent.document.getElementById("store")
         form.mark.value = score
-        //form.submit() //commented out because it refreshes page
+        form.submit() //commented out because it refreshes page
     }
     /**
      * Display the result of score
