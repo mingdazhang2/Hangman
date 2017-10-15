@@ -1,4 +1,9 @@
 <?xml version="1.0" encoding="iso-8859-1"?>
+<!-- 
+numberofmemoryquestions= 'The number of questions' 
+<question>Content of question</question>
+<answer>Content of answers</answer>
+-->
 <match title='' numberofmemoryquestions= '4' numberofflipquestions= '10' backgroundimage='' backgroundname=''>
 <passing-score>80</passing-score>
 <pair>

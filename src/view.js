@@ -334,8 +334,7 @@ class View {
     static setUpScoreUpdate(score) {
         let currentScoreElement = document.getElementById('current-score')
         currentScoreElement.innerHTML = score
-        // let eventInput = new Event('scoreUpdateEvent')
-        // window.dispatchEvent(eventInput)
+       
     }
     /**
      * Send the score to Moodle

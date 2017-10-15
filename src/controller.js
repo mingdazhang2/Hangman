@@ -66,13 +66,12 @@ class Controller {
     }) 
          
     }
-    /* Try again event when uses have been marked,
-     *the button appears on the prompt window
+    /** Try again event when uses have been marked,the button appears on the prompt window
      */
     static tryAgainEventHandler(event) {
         location.reload()
     }
-    /* Update the score when the input type is "drag" in the xml
+    /** Update the score when the input type is "drag" in the xml
      */
     static scoreUpdateEventHandler(event) {
        let score = Controller.myQuiz.calculateResult()
