@@ -101,7 +101,7 @@
 
             
 
-            <td class="description last"></td>
+            <td class="description last">The quiz object</td>
         </tr>
 
     
@@ -124,7 +124,7 @@
 
             
 
-            <td class="description last"></td>
+            <td class="description last">The view object</td>
         </tr>
 
     
@@ -165,7 +165,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="controller.js.html">controller.js</a>, <a href="controller.js.html#line9">line 9</a>
+        <a href="controller.js.html">controller.js</a>, <a href="controller.js.html#line8">line 8</a>
     </li></ul></dd>
     
 
@@ -188,12 +188,6 @@
 
 
 
-<h5>Returns:</h5>
-
-        
-
-
-    
 
 
 
@@ -277,7 +271,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="controller.js.html">controller.js</a>, <a href="controller.js.html#line24">line 24</a>
+        <a href="controller.js.html">controller.js</a>, <a href="controller.js.html#line22">line 22</a>
     </li></ul></dd>
     
 
@@ -311,7 +305,7 @@
     
 
     
-    <h4 class="name" id=".keyupEventHandler"><span class="type-signature">(static) </span>keyupEventHandler<span class="signature">()</span><span class="type-signature"></span></h4>
+    <h4 class="name" id=".scoreUpdateEventHandler"><span class="type-signature">(static) </span>scoreUpdateEventHandler<span class="signature">()</span><span class="type-signature"></span></h4>
     
 
     
@@ -319,7 +313,7 @@
 
 
 <div class="description">
-    Build up check button event
+    Update the score when the input type is "drag" in the xml
 </div>
 
 
@@ -363,7 +357,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="controller.js.html">controller.js</a>, <a href="controller.js.html#line58">line 58</a>
+        <a href="controller.js.html">controller.js</a>, <a href="controller.js.html#line70">line 70</a>
     </li></ul></dd>
     
 
@@ -449,7 +443,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="controller.js.html">controller.js</a>, <a href="controller.js.html#line46">line 46</a>
+        <a href="controller.js.html">controller.js</a>, <a href="controller.js.html#line35">line 35</a>
     </li></ul></dd>
     
 
@@ -472,6 +466,163 @@
 
 
 
+
+
+
+
+
+        
+            
+
+    
+
+    
+    <h4 class="name" id=".sleep"><span class="type-signature">(static) </span>sleep<span class="signature">(time)</span><span class="type-signature"> &rarr; {Promise}</span></h4>
+    
+
+    
+
+
+
+<div class="description">
+    Sleeping function
+</div>
+
+
+
+
+
+
+
+
+
+    <h5>Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>time</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">Number</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">The time that system sleep</td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="controller.js.html">controller.js</a>, <a href="controller.js.html#line45">line 45</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+<h5>Returns:</h5>
+
+        
+<div class="param-desc">
+    Returns a Promise object
+</div>
+
+
+
+<dl>
+    <dt>
+        Type
+    </dt>
+    <dd>
+        
+<span class="param-type">Promise</span>
+
+
+    </dd>
+</dl>
+
+    
 
 
 
@@ -535,7 +686,93 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="controller.js.html">controller.js</a>, <a href="controller.js.html#line67">line 67</a>
+        <a href="controller.js.html">controller.js</a>, <a href="controller.js.html#line51">line 51</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        
+            
+
+    
+
+    
+    <h4 class="name" id=".tryAgainEventHandler"><span class="type-signature">(static) </span>tryAgainEventHandler<span class="signature">()</span><span class="type-signature"></span></h4>
+    
+
+    
+
+
+
+<div class="description">
+    Try again event when uses have been marked,the button appears on the prompt window
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="controller.js.html">controller.js</a>, <a href="controller.js.html#line65">line 65</a>
     </li></ul></dd>
     
 
@@ -579,13 +816,13 @@
 </div>
 
 <nav>
-    <h2><a href="index.html">Home</a></h2><h3>Classes</h3><ul><li><a href="Controller.html">Controller</a></li><li><a href="Quiz.html">Quiz</a></li></ul>
+    <h2><a href="index.html">Home</a></h2><h3>Classes</h3><ul><li><a href="Controller.html">Controller</a></li><li><a href="Quiz.html">Quiz</a></li><li><a href="View.html">View</a></li></ul>
 </nav>
 
 <br class="clear">
 
 <footer>
-    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.5.4</a> on Mon Sep 18 2017 02:54:56 GMT+1200 (NZST)
+    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.5.4</a> on Mon Oct 16 2017 11:31:02 GMT+1300 (NZDT)
 </footer>
 
 <script> prettyPrint(); </script>
