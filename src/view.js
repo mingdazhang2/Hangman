@@ -80,17 +80,13 @@ class View {
 
       let limitGuessTime = hangman.limit
       let audio = document.getElementById('failMusic')
-
-            // effective!
+      // More effective!  Original: let guess = this.value
       let guess = this.value.substr(-1).toLowerCase()
-
-           // let guess = this.value
-     // let guessLower = guess.toLowerCase()
-
+              
       if (hangman.remainingLetters > 0) {
           // Get a guess from the player
         let guessArr = this.value.toLowerCase().split('')
-       // If user inputs same letter more than twice, it will ignore the input
+       		// If user inputs same letter more than twice, it will ignore the input
         if (!hangman.inputs.split('').includes(guess)) {
           hangman.inputs += guess
           // guessTime++
@@ -188,47 +184,6 @@ class View {
     return div
   }
 
-    /**
-     * Create a div element with a p tag
-     * @param  {String} str The content in the Div tag
-     * @return {Dom} Return a div DOM object
-     */
-  // static createClueDivElement (str) {
-  //   let div = document.createElement('div')
-  //   let p = document.createElement('p')
-  //   p.innerHTML = str
-  //   let img = document.createElement('img')
-  //   let dir = 'images/' + 'cross.png'
-  //   img.classList.add("tickImg");
-  //     img.setAttribute('src', dir)
-  //     img.setAttribute('width', '20px')
-  //     img.setAttribute('height', '20px')
-  //     //img.setAttribute('hidden','true')
-  //   div.appendChild(p)
-  //   div.appendChild(img)
-  //   return div
-  // }
-  //   /**
-  //    * Create clue div element with a p tag the content in the p tag filters the punctuations
-  //    * @param  {String} str The content in the clue Div tag
-  //    * return     {Dom} Return a div DOM object
-  //    */
-  // static createClueElement (str) {
-  //   let reg = /[\ |\~|\`|\!|\@|\#|\$|\%|\^|\&|\*|\(|\)|\-|\_|\+|\=|\||\\|\[|\]|\{|\}|\;|\:|\"|\'|\,|\<|\.|\>|\/|\?]/
-  //   let cluStr = ''
-  //   for (let letter of str) {
-  //     if (!reg.test(letter)) {
-  //       letter = '*'
-  //     }
-  //     cluStr += letter
-  //   }
-
-  //   let div = document.createElement('div')
-  //   let p = document.createElement('p')
-  //   p.innerHTML = cluStr
-  //   div.appendChild(p)
-  //   return div
-  // }
     /**
      * Create a input element
      * @return {Dom} return an input DOM object
@@ -345,4 +300,45 @@ class View {
     let resultElement = document.getElementById('result')
     resultElement.style.display = 'block'
   }
+	  /**
+     * Create a div element with a p tag
+     * @param  {String} str The content in the Div tag
+     * @return {Dom} Return a div DOM object
+     */
+  // static createClueDivElement (str) {
+  //   let div = document.createElement('div')
+  //   let p = document.createElement('p')
+  //   p.innerHTML = str
+  //   let img = document.createElement('img')
+  //   let dir = 'images/' + 'cross.png'
+  //   img.classList.add("tickImg");
+  //     img.setAttribute('src', dir)
+  //     img.setAttribute('width', '20px')
+  //     img.setAttribute('height', '20px')
+  //     //img.setAttribute('hidden','true')
+  //   div.appendChild(p)
+  //   div.appendChild(img)
+  //   return div
+  // }
+  //   /**
+  //    * Create clue div element with a p tag the content in the p tag filters the punctuations
+  //    * @param  {String} str The content in the clue Div tag
+  //    * return     {Dom} Return a div DOM object
+  //    */
+  // static createClueElement (str) {
+  //   let reg = /[\ |\~|\`|\!|\@|\#|\$|\%|\^|\&|\*|\(|\)|\-|\_|\+|\=|\||\\|\[|\]|\{|\}|\;|\:|\"|\'|\,|\<|\.|\>|\/|\?]/
+  //   let cluStr = ''
+  //   for (let letter of str) {
+  //     if (!reg.test(letter)) {
+  //       letter = '*'
+  //     }
+  //     cluStr += letter
+  //   }
+
+  //   let div = document.createElement('div')
+  //   let p = document.createElement('p')
+  //   p.innerHTML = cluStr
+  //   div.appendChild(p)
+  //   return div
+  // }
 }
